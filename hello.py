@@ -1,9 +1,7 @@
 
 def hello(request, start_response):
     status = '200 OK'
-    headers_response = [
-        ('Content-Type', 'text/plain')
-    ]
+    headers_response = [('Content-Type', 'text/plain')]
 
     # body = 'Hello world'
     #

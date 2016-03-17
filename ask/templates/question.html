@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    .t {  flost: left; width: 70%}
+</style>
+
+</head>
+<body>
+
+<div class="t">
+    <p> {{ question.title }} </p>
+    <p>{{ question.text }} </p>
+</div>
+
+<!--<p>Answers:</p>-->
+{% for val in page %}
+    <div class ="t" >
+        <!--<p> {{ val.title }}</p>-->
+        <p> {{ val.text }} </p>
+    </div>
+
+{% endfor %}
+
+
+
+</body>
+</html>

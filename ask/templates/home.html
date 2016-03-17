@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    .leftSide {  float: left; width: 50%}
+    .rightSide { float: right; width: 50%}
+    .clrSide {clear: both}
+</style>
+
+</head>
+<body>
+
+{% for val in page %}
+    <div class ="leftSide" >
+        {{ val.title }}
+        <!--{{val.added_at}}-->
+    </div>
+
+    <div class="rightSide">
+        <a  href="{{ questionString }}{{val.pk}}">
+            link
+        </a>
+    </div>
+    <div class="clrSide"></div>
+
+{% endfor %}
+
+
+
+</body>
+</html>

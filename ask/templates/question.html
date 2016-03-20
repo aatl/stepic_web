@@ -25,6 +25,15 @@
 {% endfor %}
 
 
+<form method="post" action="/answer">
+{% for form in answerForm %}
+    {{form}}
+{% endfor %}
+
+    {% csrf_token %}
+    <!--<div>answer_form</div>-->
+<button type="submit">save</button>
+</form>
 
 </body>
 </html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form method="POST" action="/ask/">
+{% for field in template_form%}
+<!--{{template_form.as_p}}-->
+    <label> {{field.label}} </label>
+    <div>{{field}}</div>
+
+
+{% endfor %}
+
+    {% csrf_token %}
+
+<button type="submit">save</button>
+
+</form>
+
+</body>
+</html>

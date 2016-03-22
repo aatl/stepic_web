@@ -13,6 +13,7 @@
 <div class="t">
     <p> {{ question.title }} </p>
     <p>{{ question.text }} </p>
+    <p>{{ question.author }}</p>
 </div>
 
 <!--<p>Answers:</p>-->
@@ -20,6 +21,7 @@
     <div class ="t" >
         <!--<p> {{ val.title }}</p>-->
         <p> {{ val.text }} </p>
+        <p> {{val.author}}</p>
     </div>
 
 {% endfor %}

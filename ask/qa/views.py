@@ -1,3 +1,6 @@
+from django.contrib import auth
+# from django.contrib.auth import forms
+
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.db.models import manager
@@ -11,7 +14,7 @@ from models import Question, Answer, User, models
 # Create your views here.
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 
-from qa.forms import AskForm,AnswerForm
+from qa.forms import AskForm,AnswerForm, SignupForm, LoginForm
 
 
 def pagination(request, qs):
@@ -93,6 +96,7 @@ def questionsHandler(request, *args, **kwargs):
 
     try:
         questionPage = Question.objects.get(pk = qid)
+        # questionPage._user = request.user
     except Question.DoesNotExist:
         raise Http404
 
@@ -110,12 +114,15 @@ def askHandler(request):
     if request.method == 'POST':
         ask_form = AskForm(request.POST)
 
+        ask_form._user = request.user
+
         if ask_form.is_valid():
             question = ask_form.save()
-            return HttpResponseRedirect(reverse('questionReverse', args=str(question.id)))
+            # return HttpResponseRedirect(reverse('questionReverse', args=str(question.id)))
+            return HttpResponseRedirect('/question/'+ str(question.id))
     else:
         ask_form = AskForm()
-        ask_form.text = 'get'
+        # ask_form.text = 'get'
     return render(request, 'askFormTemplate.html', {
         'template_form': ask_form,
         'actionReverse': '/ask/',
@@ -125,8 +132,51 @@ def askHandler(request):
 @require_POST
 def answerHandle(request):
     answer = AnswerForm(request.POST)
+    answer._user = request.user
     if answer.is_valid():
         answer = answer.save()
         return HttpResponseRedirect('/question/' + str(answer.question_id))
 
     return HttpResponseRedirect('/question/' + str(answer.get_question()) )
+
+
+
+def signupHandler(request):
+
+    if request.POST:
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+
+            username = request.POST['username']
+            password = request.POST['password']
+            user = auth.authenticate(username= username, password= password)
+            if user is not None:
+                auth.login(request, user)
+                return HttpResponseRedirect('/')
+    else:
+        form = SignupForm()
+
+    return render(request, 'signupTemplate.html', {
+        'signupForm': form,
+
+    })
+
+
+def loginHandler(request):
+
+    if request.POST:
+        username = request.POST.get('username')
+        passwd = request.POST.get('password')
+
+        user = auth.authenticate(username=username, password= passwd)
+
+        # if user is not None and user.is_active():
+        auth.login(request, user)
+        return HttpResponseRedirect('/')
+
+    form = LoginForm()
+
+    return render(request, 'loginTemplate.html', {
+        'loginForm': form,
+    })
